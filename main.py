@@ -18,13 +18,14 @@ class ContaBancaria:
         self.movimentacoes.append(valor)
     
     def sacar(self, valor: float) -> None:
+        LIMITE_DE_SAQUES = 3
         self._validar_valor_positivo(valor)
         if valor > 500:
             raise Exception("Valor maior do que permitido para saque.")
         if valor > self.saldo:
             raise Exception("Saldo insuficiente.")
         ultimo_saque_foi_hoje = self.data_do_ultimo_saque == date.today()
-        if self.qtd_saques_hoje == 3 and ultimo_saque_foi_hoje:
+        if self.qtd_saques_hoje == LIMITE_DE_SAQUES and ultimo_saque_foi_hoje:
             raise Exception("Número máximo de saques atingido")
         self.saldo -= valor
         self.movimentacoes.append(0 - valor)
@@ -39,10 +40,10 @@ class ContaBancaria:
         extrato = f"\n{titulo.center(len(titulo) + 2, ' ').center(80, '#')}\n\n"
         for movimentacao in self.movimentacoes:
             if movimentacao > 0:
-                extrato += f"Depósito de R${movimentacao:.2f}\n"
+                extrato += f"Depósito de R$ {movimentacao:.2f}\n"
             else:
-                extrato += f"Saque    de R${0 - movimentacao:.2f}\n"
-        extrato += f"\nSaldo: R${self.saldo:.2f}\n\n"
+                extrato += f"Saque    de R$ {0 - movimentacao:.2f}\n"
+        extrato += f"\nSaldo: R$ {self.saldo:.2f}\n\n"
         return extrato
 
 conta_bancaria = ContaBancaria()
