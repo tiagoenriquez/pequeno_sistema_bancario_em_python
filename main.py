@@ -18,9 +18,10 @@ class ContaBancaria:
         self.movimentacoes.append(valor)
     
     def sacar(self, valor: float) -> None:
+        SAQUE_MAXIMO = 500
         LIMITE_DE_SAQUES = 3
         self._validar_valor_positivo(valor)
-        if valor > 500:
+        if valor > SAQUE_MAXIMO:
             raise Exception("Valor maior do que permitido para saque.")
         if valor > self.saldo:
             raise Exception("Saldo insuficiente.")
